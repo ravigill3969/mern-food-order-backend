@@ -15,7 +15,13 @@ mongoose
 
 app.use(express.json());
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
+app.use(cors(
+  {
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }
+));
 
 app.get("/health", (req: Request, res: Response) => {
   res.send({
