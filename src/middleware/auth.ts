@@ -41,7 +41,7 @@ export const jwtParse = async (
     const auth0Id = decoded.sub; //auth0Id
     // console.log(auth0Id)
     const user = await User.findOne({ auth0Id });
-    console.log(user)
+    // console.log(user)
     if (!user) {
       return res.sendStatus(401);
     }
