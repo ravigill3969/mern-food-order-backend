@@ -6,6 +6,7 @@ import { v2 as cloudinary } from "cloudinary";
 
 import myUserRoute from "./routes/MyUserRoutes";
 import myReastaurantRoute from "./routes/MyReastaurantRoute";
+import reastaurantRoute from "./routes/Reastaurant";
 
 dotenv.config();
 const app = express();
@@ -32,6 +33,7 @@ app.get("/health", (req: Request, res: Response) => {
 
 app.use("/api/my/user", myUserRoute);
 app.use("/api/my/restaurant", myReastaurantRoute);
+app.use("/api/restaurant", reastaurantRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);
