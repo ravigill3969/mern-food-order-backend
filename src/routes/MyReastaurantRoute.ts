@@ -13,12 +13,24 @@ const upload = multer({
     fileSize: 5 * 1024 * 1024,
   },
 });
-function test(req: Request, res: Response, next: NextFunction){
-  console.log(req.file)
-  next()
+function test(req: Request, res: Response, next: NextFunction) {
+  console.log(req.body);
+  next();
+}
 
-};
-
+router.get(
+  "/order",
+  jwtCheck,
+  jwtParse,
+  MyReastaurantController.getMyRestaurantOrder
+);
+router.patch(
+  "/order/:orderId/status",
+ 
+  jwtCheck,
+  jwtParse,
+  MyReastaurantController.updateOrderStatus
+);
 router.get("/", jwtCheck, jwtParse, MyReastaurantController.getMyRestaurant);
 
 router.post(
@@ -26,7 +38,7 @@ router.post(
   jwtCheck,
   jwtParse,
   // validateMyRestaurantRequest,
-  upload.single("imageFile"), 
+  upload.single("imageFile"),
   MyReastaurantController.createMyRestaurant
 );
 
