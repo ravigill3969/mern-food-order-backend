@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -7,6 +7,7 @@ import { v2 as cloudinary } from "cloudinary";
 import myUserRoute from "./routes/MyUserRoutes";
 import myReastaurantRoute from "./routes/MyReastaurantRoute";
 import reastaurantRoute from "./routes/Reastaurant";
+import orderRoute from "./routes/OrderRoute";
 
 dotenv.config();
 const app = express();
@@ -22,8 +23,11 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-app.use(express.json());
 app.use(cors());
+
+app.use("/api/order/checkout/webhook", express.raw({ type: "*/*" }));
+
+app.use(express.json());
 
 app.get("/health", (req: Request, res: Response) => {
   res.send({
@@ -34,6 +38,7 @@ app.get("/health", (req: Request, res: Response) => {
 app.use("/api/my/user", myUserRoute);
 app.use("/api/my/restaurant", myReastaurantRoute);
 app.use("/api/restaurant", reastaurantRoute);
+app.use("/api/order", orderRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);
